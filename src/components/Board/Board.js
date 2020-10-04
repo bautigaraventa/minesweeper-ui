@@ -16,7 +16,10 @@ class Board extends Component {
                         key={i.toString().concat(j.toString())}
                         value={cell.value}
                         isRevealed={cell.isRevealed}
-                        clicked={() => this.props.cellClicked(i, j)} />
+                        isQuestioned={cell.isQuestioned}
+                        isFlagged={cell.isFlagged}
+                        clicked={() => this.props.cellClicked(i, j)}
+                        contextMenu={(event) => this.props.cellRightClicked(event, i, j)} />
                 )
             })
         });

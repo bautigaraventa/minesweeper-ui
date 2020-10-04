@@ -7,21 +7,25 @@ import Actions from '../Actions/Actions';
 class Game extends Component {
     state = {
         board: [
-            [{ value: 1, isRevealed: false }, { value: -1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }],
-            [{ value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 2, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }],
-            [{ value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: 2, isRevealed: false }, { value: -1, isRevealed: false }, { value: 2, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }],
-            [{ value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: -1, isRevealed: false }, { value: 3, isRevealed: false }, { value: 3, isRevealed: false }, { value: -1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }],
-            [{ value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 2, isRevealed: false }, { value: -1, isRevealed: false }, { value: 2, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: -1, isRevealed: false }, { value: 1, isRevealed: false }],
-            [{ value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }],
-            [{ value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }],
-            [{ value: -1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: -1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }],
-            [{ value: 1, isRevealed: false }, { value: 2, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: 2, isRevealed: false }, { value: 2, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }],
-            [{ value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: -1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: -1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }]
+            [{ value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: -1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }],
+            [{ value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 2, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }],
+            [{ value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 2, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: -1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 2, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }],
+            [{ value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: -1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 3, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 3, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: -1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }],
+            [{ value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 2, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: -1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 2, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: -1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }],
+            [{ value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }],
+            [{ value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }],
+            [{ value: -1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: -1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }],
+            [{ value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 2, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 2, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 2, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }],
+            [{ value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: -1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: -1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 1, isQuestioned: false, isFlagged: false, isRevealed: false }, { value: 0, isQuestioned: false, isFlagged: false, isRevealed: false }]
         ],
     }
 
     cellClickedHandler = (x, y) => {
         const boardCloned = [...this.state.board];
+        
+        if (boardCloned[x][y].isFlagged || boardCloned[x][y].isQuestioned) {
+            return;
+        }
 
         if (boardCloned[x][y].value === -1) {
             return this.lostGame(boardCloned);
@@ -93,13 +97,35 @@ class Game extends Component {
         return this.revealRecursively(clonedBoard, newPositionsToReveal);
     }
 
+    cellRightClickedHandler = (event, x, y) => {
+        event.preventDefault();
+
+        const boardCloned = [...this.state.board];
+
+        if (boardCloned[x][y].isRevealed) {
+            return;
+        } else if (boardCloned[x][y].isFlagged) {
+            boardCloned[x][y].isFlagged = false;
+            boardCloned[x][y].isQuestioned = true;
+        } else if (boardCloned[x][y].isQuestioned) {
+            boardCloned[x][y].isQuestioned = false;
+        } else {
+            boardCloned[x][y].isFlagged = true;
+        }
+
+        this.setState({
+            board: boardCloned
+        });
+    }
+
     render() {
         return (
             <div>
                 <Stats />
                 <Board
                     board={this.state.board}
-                    cellClicked={this.cellClickedHandler} />
+                    cellClicked={this.cellClickedHandler}
+                    cellRightClicked={this.cellRightClickedHandler} />
                 <Actions />
             </div>
         )

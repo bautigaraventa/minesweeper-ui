@@ -22,11 +22,22 @@ const cell = (props) => {
     }
 
     const divStyle = props.isRevealed ? props.value === -1 ? { ...style, ...cellBombStyle } : { ...style, ...cellRevealedStyle } : { ...style }
-
-    const cellToShow = props.isRevealed ? props.value === -1 ? <p style={cellStyle}>💣</p> : <p style={cellStyle}>{props.value}</p> : <p style={cellStyle}></p>;
+    
+    let cellToShow = <p style={cellStyle}></p>;
+    if (props.isRevealed) {
+        if (props.value === -1) {
+            cellToShow = <p style={cellStyle}>💣</p>;
+        } else if (props.value > 0) {
+            cellToShow = <p style={cellStyle}>{props.value}</p>;
+        }
+    } else if (props.isFlagged) {
+        cellToShow = <p style={cellStyle}>🚩</p>;
+    } else if (props.isQuestioned) {
+        cellToShow = <p style={cellStyle}>❓</p>;
+    }
 
     return (
-        <div onClick={props.clicked} style={divStyle} >
+        <div onClick={props.clicked} onContextMenu={props.contextMenu} style={divStyle} >
             {cellToShow}
         </div >
     )
