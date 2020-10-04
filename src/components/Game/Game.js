@@ -1,50 +1,63 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Board from '../Board/Board';
 import Stats from '../Stats/Stats';
 import Actions from '../Actions/Actions';
 import axios from '../../axios-minesweeper';
 
-class Game extends Component {
-    state = {
-        board: [],
-    }
+const Game = (props) => {
+    const [board, setBoard] = useState([]);
+    const [mines, setMines] = useState(0);
+    const [won, setWon] = useState(false);
+    const [lost, setLost] = useState(false);
 
-    componentDidMount() {
+    useEffect(() => {
         axios.post('start-game')
             .then(response => {
-                this.setState({
-                    board: response.data.game.board,
-                });
+                setBoard(response.data.game.board);
+                setMines(response.data.game.mines);
+                setWon(response.data.game.won);
+                setLost(response.data.game.lost);
             })
             .catch(error => console.log(error));
-    }
+    }, []);
 
-    cellClickedHandler = (x, y) => {
-        const boardCloned = [...this.state.board];
+    const cellClickedHandler = (x, y) => {
+        const boardCloned = [...board];
 
         if (boardCloned[x][y].isFlagged || boardCloned[x][y].isQuestioned) {
             return;
         }
 
         if (boardCloned[x][y].value === -1) {
-            return this.lostGame(boardCloned);
+            return lostGame(boardCloned);
         } else if (boardCloned[x][y].value !== 0) {
             boardCloned[x][y].isRevealed = true;
 
-            this.setState({
-                board: boardCloned
-            });
-        } else {
-            const updatedBoard = this.revealRecursively(boardCloned, [[x, y]]);
+            const won = hasWon(boardCloned);
 
-            this.setState({
-                board: updatedBoard,
-            });
+            setBoard(boardCloned);
+            setWon(won);
+        } else {
+            const updatedBoard = revealRecursively(boardCloned, [[x, y]]);
+
+            const won = hasWon(updatedBoard);
+
+            setBoard(updatedBoard);
+            setWon(won);
         }
     }
 
-    lostGame = (board) => {
+    const hasWon = (board) => {
+        const cellsLeft = board.map(b => {
+            return b.filter(c => !c.isRevealed);
+        });
+        const flattenedCellsLeft = cellsLeft.flat();
+
+        return flattenedCellsLeft.length === mines;
+    }
+
+    const lostGame = (board) => {
         board.forEach((row, i) => {
             row.forEach((cell, j) => {
                 if (cell.value === -1) {
@@ -53,12 +66,11 @@ class Game extends Component {
             })
         });
 
-        this.setState({
-            board: board,
-        });
+        setBoard(board);
+        setLost(true);
     }
 
-    revealRecursively = (board, positionsToReveal) => {
+    const revealRecursively = (board, positionsToReveal) => {
         const clonedBoard = [...board];
 
         if (!positionsToReveal.length) {
@@ -84,7 +96,7 @@ class Game extends Component {
                     [position[0] + 1, position[1] + 1],
                 ]
             } else {
-                return null
+                return null;
             }
         })
             .flat()
@@ -94,13 +106,13 @@ class Game extends Component {
             return !clonedBoard[p[0]]?.[p[1]]?.isRevealed;
         });
 
-        return this.revealRecursively(clonedBoard, newPositionsToReveal);
+        return revealRecursively(clonedBoard, newPositionsToReveal);
     }
 
-    cellRightClickedHandler = (event, x, y) => {
+    const cellRightClickedHandler = (event, x, y) => {
         event.preventDefault();
 
-        const boardCloned = [...this.state.board];
+        const boardCloned = [...board];
 
         if (boardCloned[x][y].isRevealed) {
             return;
@@ -113,23 +125,22 @@ class Game extends Component {
             boardCloned[x][y].isFlagged = true;
         }
 
-        this.setState({
-            board: boardCloned
-        });
+        setBoard(boardCloned);
     }
 
-    render() {
-        return (
-            <div>
-                <Stats />
-                <Board
-                    board={this.state.board}
-                    cellClicked={this.cellClickedHandler}
-                    cellRightClicked={this.cellRightClickedHandler} />
-                <Actions />
-            </div>
-        )
-    }
+
+    return (
+        <div>
+            <Stats />
+            <Board
+                board={board}
+                won={won}
+                lost={lost}
+                cellClicked={cellClickedHandler}
+                cellRightClicked={cellRightClickedHandler} />
+            <Actions />
+        </div>
+    )
 }
 
 export default Game;

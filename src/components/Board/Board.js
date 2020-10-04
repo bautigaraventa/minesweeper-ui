@@ -1,15 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import Cell from '../Cell/Cell';
 
-class Board extends Component {
-    style = {
+const Board = (props) => {
+    const style = {
         textAlign: 'center',
-        height: `${this.props.board.length * 42}px`,
+        height: `${props.board.length * 42}px`,
     }
 
-    render() {
-        const rows = this.props.board.map((row, i) => {
+    let boardContent = <p>CONGRATULATIONS, YOU WON!</p>
+    if (props.lost) {
+        boardContent = <p>YOU LOST, MAYBE NEXT TIME...!</p>
+    } else if (!props.won) {
+        const rows = props.board.map((row, i) => {
             return row.map((cell, j) => {
                 return (
                     <Cell
@@ -18,26 +21,26 @@ class Board extends Component {
                         isRevealed={cell.isRevealed}
                         isQuestioned={cell.isQuestioned}
                         isFlagged={cell.isFlagged}
-                        clicked={() => this.props.cellClicked(i, j)}
-                        contextMenu={(event) => this.props.cellRightClicked(event, i, j)} />
+                        clicked={() => props.cellClicked(i, j)}
+                        contextMenu={(event) => props.cellRightClicked(event, i, j)} />
                 )
             })
         });
 
-        const orderedRows = rows.map((r, i) => {
+        boardContent = rows.map((r, i) => {
             return (
                 <div key={i} style={{ display: 'inline-block' }}>
                     {r.map(cell => cell)}
                 </div>
             )
         })
-
-        return (
-            <div style={this.style}>
-                {orderedRows}
-            </div>
-        )
     }
+
+    return (
+        <div style={style}>
+            {boardContent}
+        </div>
+    )
 };
 
 export default Board;

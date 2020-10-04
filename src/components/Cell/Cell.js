@@ -1,6 +1,6 @@
 import React from 'react';
 
-const cell = (props) => {
+const Cell = (props) => {
     const style = {
         border: '1px solid black',
         width: '40px',
@@ -43,4 +43,4 @@ const cell = (props) => {
     )
 };
 
-export default cell;
+export default Cell;
