@@ -29,8 +29,6 @@ class Board extends Component {
             )
         })
 
-        console.log(orderedRows)
-
         return (
             <div style={this.style}>
                 {orderedRows}

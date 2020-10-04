@@ -17,17 +17,35 @@ class Game extends Component {
             [{ value: -1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: -1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }],
             [{ value: 1, isRevealed: false }, { value: 2, isRevealed: false }, { value: 1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: 2, isRevealed: false }, { value: 2, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }],
             [{ value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: -1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }, { value: 0, isRevealed: false }, { value: 1, isRevealed: false }, { value: -1, isRevealed: false }, { value: 1, isRevealed: false }, { value: 0, isRevealed: false }]
-        ]
+        ],
     }
 
     cellClickedHandler = (x, y) => {
         const boardCloned = [...this.state.board];
+
+        if (boardCloned[x][y].value === -1) {
+            return this.lostGame(boardCloned);
+        }
 
         boardCloned[x][y].isRevealed = true;
 
         this.setState({
             board: boardCloned
         })
+    }
+
+    lostGame = (board) => {
+        board.forEach((row, i) => {
+            row.forEach((cell, j) => {
+                if (cell.value === -1) {
+                    board[i][j].isRevealed = true;
+                };
+            })
+        });
+
+        this.setState({
+            board: board,
+        });
     }
 
     render() {
