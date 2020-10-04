@@ -17,11 +17,11 @@ const cell = (props) => {
         backgroundColor: '#ccc'
     }
 
-    const cellBombStyle = {
+    const cellMineStyle = {
         backgroundColor: 'red',
     }
 
-    const divStyle = props.isRevealed ? props.value === -1 ? { ...style, ...cellBombStyle } : { ...style, ...cellRevealedStyle } : { ...style }
+    const divStyle = props.isRevealed ? props.value === -1 ? { ...style, ...cellMineStyle } : { ...style, ...cellRevealedStyle } : { ...style }
     
     let cellToShow = <p style={cellStyle}></p>;
     if (props.isRevealed) {
