@@ -25,13 +25,19 @@ class Game extends Component {
 
         if (boardCloned[x][y].value === -1) {
             return this.lostGame(boardCloned);
+        } else if (boardCloned[x][y].value !== 0) {
+            boardCloned[x][y].isRevealed = true;
+
+            this.setState({
+                board: boardCloned
+            });
+        } else {
+            const updatedBoard = this.revealRecursively(boardCloned, [[x, y]]);
+
+            this.setState({
+                board: updatedBoard,
+            });
         }
-
-        boardCloned[x][y].isRevealed = true;
-
-        this.setState({
-            board: boardCloned
-        })
     }
 
     lostGame = (board) => {
@@ -46,6 +52,45 @@ class Game extends Component {
         this.setState({
             board: board,
         });
+    }
+
+    revealRecursively = (board, positionsToReveal) => {
+        const clonedBoard = [...board];
+
+        if (!positionsToReveal.length) {
+            return clonedBoard;
+        }
+
+        positionsToReveal.forEach(position => {
+            if (clonedBoard[position[0]]?.[position[1]]) {
+                clonedBoard[position[0]][position[1]].isRevealed = true;
+            };
+        });
+
+        const possiblePositionsToReveal = positionsToReveal.map(position => {
+            if (clonedBoard[position[0]]?.[position[1]]?.value === 0) {
+                return [
+                    [position[0] - 1, position[1] - 1],
+                    [position[0] - 1, position[1]],
+                    [position[0] - 1, position[1] + 1],
+                    [position[0], position[1] - 1],
+                    [position[0], position[1] + 1],
+                    [position[0] + 1, position[1] - 1],
+                    [position[0] + 1, position[1]],
+                    [position[0] + 1, position[1] + 1],
+                ]
+            } else {
+                return null
+            }
+        })
+            .flat()
+            .filter(elem => elem != null);
+
+        const newPositionsToReveal = possiblePositionsToReveal.filter(p => {
+            return !clonedBoard[p[0]]?.[p[1]]?.isRevealed;
+        });
+
+        return this.revealRecursively(clonedBoard, newPositionsToReveal);
     }
 
     render() {
