@@ -27,9 +27,6 @@ const cell = (props) => {
 
     return (
         <div onClick={props.clicked} style={divStyle} >
-            {/* <p style={cellStyle}>
-                {cellToShow}
-            </p> */}
             {cellToShow}
         </div >
     )
