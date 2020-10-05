@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
 
-import Board from '../Board/Board';
-import Stats from '../Stats/Stats';
-import Actions from '../Actions/Actions';
+import Board from '../Board';
+import Stats from '../Stats';
+import Actions from '../Actions';
 import axios from '../../axios-minesweeper';
 
-const Game = (props) => {
+const Game = ({ match: { params: { id } } }) => {
     const [board, setBoard] = useState([]);
     const [mines, setMines] = useState(0);
     const [won, setWon] = useState(false);
     const [lost, setLost] = useState(false);
 
     useEffect(() => {
-        axios.post('start-game')
+        axios.get(`resume-game/${id}`)
             .then(response => {
-                setBoard(response.data.game.board);
-                setMines(response.data.game.mines);
-                setWon(response.data.game.won);
-                setLost(response.data.game.lost);
+                setBoard(response.data.board);
+                setMines(response.data.mines);
+                setWon(response.data.won);
+                setLost(response.data.lost);
             })
             .catch(error => console.log(error));
-    }, []);
+    }, [id]);
 
     const cellClickedHandler = (x, y) => {
         const boardCloned = [...board];
