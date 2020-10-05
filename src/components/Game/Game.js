@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
+import styled from '@emotion/styled'
 
 import Board from '../Board';
 import Stats from '../Stats';
 import Actions from '../Actions';
 import axios from '../../axios-minesweeper';
+
+const GameDiv = styled.div({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+});
 
 const Game = ({ match: { params: { id } } }) => {
     const history = useHistory();
@@ -13,7 +21,9 @@ const Game = ({ match: { params: { id } } }) => {
     const [mines, setMines] = useState(0);
     const [won, setWon] = useState(false);
     const [lost, setLost] = useState(false);
+    const [player, setPlayer] = useState('');
     const [timer, setTimer] = useState(0);
+    const [timerInterval, setTimerInterval] = useState(null);
 
     useEffect(() => {
         axios.get(`resume-game/${id}`)
@@ -22,12 +32,15 @@ const Game = ({ match: { params: { id } } }) => {
                 setMines(response.data.mines);
                 setWon(response.data.won);
                 setLost(response.data.lost);
+                setPlayer(response.data.player);
                 setTimer(response.data.timer);
-                setInterval(() => {
-                    setTimer((prev) => prev + 1)
-                }, 1000);
+                setTimerInterval(setInterval(() => {
+                    setTimer((prev) => prev + 1);
+                }, 1000));
             })
             .catch(error => console.log(error));
+            
+        return clearInterval(timerInterval); 
     }, [id]);
 
     const cellClickedHandler = async (x, y) => {
@@ -193,8 +206,9 @@ const Game = ({ match: { params: { id } } }) => {
     }
 
     return (
-        <div>
+        <GameDiv>
             <Stats
+                player={player}
                 won={won}
                 lost={lost}
                 timer={timer} />
@@ -207,7 +221,7 @@ const Game = ({ match: { params: { id } } }) => {
                 saveExitClicked={saveExitGameHandler}
                 won={won}
                 lost={lost} />
-        </div>
+        </GameDiv>
     )
 }
 

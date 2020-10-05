@@ -1,13 +1,13 @@
+import styled from '@emotion/styled';
 import React from 'react';
 
 import Cell from '../Cell';
 
-const Board = (props) => {
-    const style = {
-        textAlign: 'center',
-        height: `${props.board.length * 42}px`,
-    }
+const BoardDiv = styled.div({
+    display: "flex",
+})
 
+const Board = (props) => {
     const rows = props.board.map((row, i) => {
         return row.map((cell, j) => {
             return (
@@ -32,9 +32,9 @@ const Board = (props) => {
     })
 
     return (
-        <div style={style}>
+        <BoardDiv>
             {boardContent}
-        </div>
+        </BoardDiv>
     )
 };
 

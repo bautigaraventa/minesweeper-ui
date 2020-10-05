@@ -3,6 +3,18 @@ import { useHistory } from "react-router-dom";
 
 import axios from '../../axios-minesweeper';
 import { useUser } from '../../hooks/useUser';
+import Button from '../Button/Button';
+import Input from '../Input';
+
+const divStyle = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "center",
+    height: "20vw",
+    width: "50%",
+    margin: "0 auto",
+}
 
 const Configuration = (props) => {
     const history = useHistory();
@@ -43,11 +55,11 @@ const Configuration = (props) => {
     }
 
     return (
-        <div>
-            <label>Rows</label><input onChange={rowsChangedHandler} value={rows} />
-            <label>Columns</label><input onChange={columnsChangedHandler} value={columns} />
-            <label>Mines</label><input onChange={minesChangedHandler} value={mines} />
-            <button onClick={startGame}>START</button>
+        <div style={divStyle}>
+            <Input changed={rowsChangedHandler} value={rows} placeholder="Rows" type="number" min={5} />
+            <Input changed={columnsChangedHandler} value={columns} placeholder="Columns" type="number" min={5} />
+            <Input changed={minesChangedHandler} value={mines} placeholder="Mines" type="number" min={1} />
+            <Button clicked={startGame}>START</Button>
         </div>
     )
 }

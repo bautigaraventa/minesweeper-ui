@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useUser } from '../../hooks/useUser';
+import styled from '@emotion/styled'
 
-const style = {
+import { useUser } from '../../hooks/useUser';
+import Input from '../Input';
+import Button from '../Button';
+
+const ActionsContainer = styled.div({
+    marginTop: "4rem",
     display: "flex",
-    justifyContent: "space-between",
-    flexDirection: "column",
-    padding: '16px'
-};
+    justifyContent: "center",
+});
+
+const ButtonMargin = styled(Button)(() => ({
+    marginRight: "3rem",
+}))
 
 const Home = () => {
     const [user, setUser] = useUser();
@@ -23,14 +29,16 @@ const Home = () => {
     }
 
     return (
-        <div style={style}>
-            <input onChange={handleChange} value={newUser} type="text" />
-            <Link to="/configuration" onClick={handleClick}>
-                New Game
-            </Link>
-            <Link to={`/games/${newUser}`} onClick={handleClick}>
-                Resume Game
-            </Link>
+        <div>
+            <Input changed={handleChange} value={newUser} placeholder="Player" type="text" />
+            <ActionsContainer>
+                <ButtonMargin withRouter to="/configuration" clicked={handleClick}>
+                    New Game
+                </ButtonMargin>
+                <Button withRouter to={`/games/${newUser}`} clicked={handleClick}>
+                    Resume Game
+                </Button>
+            </ActionsContainer>
         </div>
     )
 }

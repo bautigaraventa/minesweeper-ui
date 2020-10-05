@@ -7,10 +7,22 @@ import Games from './components/Games';
 import Home from './components/Home';
 import UserContextProvider from './context/UserContext';
 
+const divStyle = {
+  padding: '5rem 20rem',
+  height: '100%',
+}
+
+const h1Style = {
+  fontSize: '6rem',
+  fontWeight: '300',
+  textAlign: 'center',
+  paddingBottom: '5rem',
+}
+
 function App() {
   return (
-    <div className="App">
-      <h1 style={{ textAlign: 'center' }}>MineSweeper</h1>
+    <div style={divStyle}>
+      <h1 style={h1Style}>MineSweeper</h1>
       <UserContextProvider>
         <Router>
           <Switch>
