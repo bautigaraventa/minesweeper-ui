@@ -1,68 +1,35 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# minesweeper-ui
 
-## Available Scripts
+minesweeper-ui web ui that let us play the classic minesweeper game. It is integrated with a server (https://github.com/bautigaraventa/minesweeper-api).
 
-In the project directory, you can run:
+It's a Frontend web app developed in react.js.
 
-### `npm start`
+# Live Demo
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `npm test`
+# To start the project
+    - npm install
+    - set .env file (see section below)
+    - npm start
+    - the application will start running on http://localhost:3000
+    - to make the app work correctly, you should download the minesweeper-api and start the server
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# .env example
+    - REACT_APP_API_URL=http://localhost:3001 => the server url where we will make requests
 
-### `npm run build`
+# How To Play
+    - Enter your name (player).
+    - Choose between a NEW GAME, or RESUME GAME (old saved games).
+    - If you start a new game, you will have to set the parameters of the minesweeper board, after that, you will start playing.
+    - When you are playing a game, you may want to exit and save the current state of it, so you have to click SAVE AND EXIT
+    - If you are playing and just want to quit, you must click EXIT, and the game will be deleted.
+    - After saving a match, you can resume it by selecting the same Player Name and clicking on RESUME GAME
+    - If you win or loose a game, you must click EXIT to go back to the home page
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+# Decisions Made
+    - All features requested were developed.
+    - To support different players, we recognize them by their Player Name and each of them will have different games.
+    - This project is absolutely scalable, for example:
+        - we may add users support by having accounts with login/logout
+        - we may show the best scores between all players
