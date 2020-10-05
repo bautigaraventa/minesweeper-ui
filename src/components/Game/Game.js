@@ -1,29 +1,55 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
+import styled from '@emotion/styled'
 
-import Board from '../Board/Board';
-import Stats from '../Stats/Stats';
-import Actions from '../Actions/Actions';
+import Board from '../Board';
+import Stats from '../Stats';
+import Actions from '../Actions';
 import axios from '../../axios-minesweeper';
 
-const Game = (props) => {
+const GameDiv = styled.div({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+});
+
+const Game = ({ match: { params: { id } } }) => {
+    const history = useHistory();
+
     const [board, setBoard] = useState([]);
     const [mines, setMines] = useState(0);
     const [won, setWon] = useState(false);
     const [lost, setLost] = useState(false);
+    const [player, setPlayer] = useState('');
+    const [timer, setTimer] = useState(0);
+    const [timerInterval, setTimerInterval] = useState(null);
 
     useEffect(() => {
-        axios.post('start-game')
+        axios.get(`resume-game/${id}`)
             .then(response => {
-                setBoard(response.data.game.board);
-                setMines(response.data.game.mines);
-                setWon(response.data.game.won);
-                setLost(response.data.game.lost);
+                setBoard(response.data.board);
+                setMines(response.data.mines);
+                setWon(response.data.won);
+                setLost(response.data.lost);
+                setPlayer(response.data.player);
+                setTimer(response.data.timer);
+                setTimerInterval(setInterval(() => {
+                    setTimer((prev) => prev + 1);
+                }, 1000));
             })
             .catch(error => console.log(error));
-    }, []);
+            
+        return clearInterval(timerInterval); 
+    }, [id]);
 
-    const cellClickedHandler = (x, y) => {
+    const cellClickedHandler = async (x, y) => {
+        if (won || lost) {
+            return;
+        }
+
         const boardCloned = [...board];
+        let updatedBoard;
 
         if (boardCloned[x][y].isFlagged || boardCloned[x][y].isQuestioned) {
             return;
@@ -33,18 +59,27 @@ const Game = (props) => {
             return lostGame(boardCloned);
         } else if (boardCloned[x][y].value !== 0) {
             boardCloned[x][y].isRevealed = true;
-
-            const won = hasWon(boardCloned);
-
-            setBoard(boardCloned);
-            setWon(won);
+            updatedBoard = [...boardCloned];
         } else {
-            const updatedBoard = revealRecursively(boardCloned, [[x, y]]);
+            updatedBoard = revealRecursively(boardCloned, [[x, y]]);
+        }
 
-            const won = hasWon(updatedBoard);
+        const wonGame = hasWon(updatedBoard);
 
-            setBoard(updatedBoard);
-            setWon(won);
+        setBoard(updatedBoard);
+        setWon(wonGame);
+        if (wonGame) {
+            try {
+                const gameToEnd = {
+                    board,
+                    won: wonGame,
+                    lost,
+                    timer,
+                }
+                await axios.put(`end-game/${id}`, gameToEnd);
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 
@@ -57,7 +92,7 @@ const Game = (props) => {
         return flattenedCellsLeft.length === mines;
     }
 
-    const lostGame = (board) => {
+    const lostGame = async (board) => {
         board.forEach((row, i) => {
             row.forEach((cell, j) => {
                 if (cell.value === -1) {
@@ -65,9 +100,20 @@ const Game = (props) => {
                 };
             })
         });
-
         setBoard(board);
         setLost(true);
+
+        try {
+            const lostGame = {
+                board,
+                won,
+                lost: true,
+                timer,
+            }
+            await axios.put(`end-game/${id}`, lostGame);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const revealRecursively = (board, positionsToReveal) => {
@@ -111,6 +157,9 @@ const Game = (props) => {
 
     const cellRightClickedHandler = (event, x, y) => {
         event.preventDefault();
+        if (won || lost) {
+            return;
+        }
 
         const boardCloned = [...board];
 
@@ -128,18 +177,51 @@ const Game = (props) => {
         setBoard(boardCloned);
     }
 
+    const exitGameHandler = async () => {
+        try {
+            const lostGame = {
+                board,
+                won,
+                lost: !won && !lost ? true : lost,
+                timer,
+            }
+            await axios.put(`end-game/${id}`, lostGame);
+            history.push('/');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const saveExitGameHandler = async () => {
+        try {
+            const pausedGame = {
+                board,
+                timer,
+            }
+            await axios.put(`pause-game/${id}`, pausedGame);
+            history.push('/');
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
-        <div>
-            <Stats />
-            <Board
-                board={board}
+        <GameDiv>
+            <Stats
+                player={player}
                 won={won}
                 lost={lost}
+                timer={timer} />
+            <Board
+                board={board}
                 cellClicked={cellClickedHandler}
                 cellRightClicked={cellRightClickedHandler} />
-            <Actions />
-        </div>
+            <Actions
+                exitClicked={exitGameHandler}
+                saveExitClicked={saveExitGameHandler}
+                won={won}
+                lost={lost} />
+        </GameDiv>
     )
 }
 
