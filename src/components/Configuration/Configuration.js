@@ -56,9 +56,9 @@ const Configuration = (props) => {
 
     return (
         <div style={divStyle}>
-            <Input changed={rowsChangedHandler} value={rows} placeholder="Rows" type="number" min={5} />
-            <Input changed={columnsChangedHandler} value={columns} placeholder="Columns" type="number" min={5} />
-            <Input changed={minesChangedHandler} value={mines} placeholder="Mines" type="number" min={1} />
+            <Input changed={rowsChangedHandler} value={rows} placeholder="Rows" type="number" min={5} max={20}/>
+            <Input changed={columnsChangedHandler} value={columns} placeholder="Columns" type="number" min={5} max={20} />
+            <Input changed={minesChangedHandler} value={mines} placeholder="Mines" type="number" min={rows} max={rows * columns} />
             <Button clicked={startGame}>START</Button>
         </div>
     )
