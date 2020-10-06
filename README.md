@@ -5,7 +5,7 @@ minesweeper-ui web ui that let us play the classic minesweeper game. It is integ
 It's a Frontend web app developed in react.js.
 
 # Live Demo
-https://minesweeper-ui-p5huqpow5.vercel.app/
+https://minesweeper-ui.vercel.app/
 
 # To start the project
     - npm install
