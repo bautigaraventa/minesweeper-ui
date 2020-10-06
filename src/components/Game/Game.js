@@ -39,9 +39,15 @@ const Game = ({ match: { params: { id } } }) => {
                 }, 1000));
             })
             .catch(error => console.log(error));
-            
-        return clearInterval(timerInterval); 
+
+        return clearInterval(timerInterval);
     }, [id]);
+
+    useEffect(() => {
+        if (won || lost) {
+            clearInterval(timerInterval);
+        }
+    }, [won, lost]);
 
     const cellClickedHandler = async (x, y) => {
         if (won || lost) {
